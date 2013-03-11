@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for checkpoint in object_list %}
+        {{ checkpoint }}
+        <form method="post" action="/check_points/{{ checkpoint.id }}/del/">
+            {% csrf_token %}
+            <button name="delete" value="delete">delete</button>
+        </form>
+    {% endfor %}
+    <div class="add_check_point">
+        <form method="post" action="/check_points/check_point_exrc_choice/">
+            {% csrf_token %}
+            <button name="add_check_point" value="add_check_point" type="submit">Add check point</button>
+        </form>
+    </div>
+{% endblock %}

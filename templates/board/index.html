@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+{% endblock %}
+
+
+{% block content %}
+    <div><a href="/board/new_post/">new post</a></div>
+    {% load comments %}
+    {% load mptt_tags %}
+    <div>
+
+        <ul>
+            {% recursetree object_list %}
+                <li>
+                    <a href="{{ node.get_absolute_url }}"> {{ node.title }}</a>
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
+
+    </div>
+{% endblock %}

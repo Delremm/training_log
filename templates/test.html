@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#qq").click(function(){
+            $.get("/test/", {'format':'json'}, function(json){
+                $('#qq').append(json.dayx[2].exercise_name);
+            }, 'json');
+        });
+    });
+</script>
+{% endblock %}
+{% block content %}
+    <div class="container">
+    <p id="qq">rr</p>
+    <input>
+    {{ dayx }}
+    [f[f {{ request.is_ajax }}
+    </div>
+{% endblock %}

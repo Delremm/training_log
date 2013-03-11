@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for exercise in exercises %}
+        <form method="post" action="{{ redirect_to }}">
+            {% csrf_token %}
+            <button name="exercise_id" value="{{ exercise.id }}">{{ exercise }}_{{ exercise.id }}_{{ workout_id }}</button>
+        </form>
+    {% endfor %}
+
+{% endblock %}

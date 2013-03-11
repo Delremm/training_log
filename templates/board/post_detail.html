@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+{% endblock %}
+
+
+{% block content %}
+    <div>
+        {{ object.title }}
+        <div>
+            <form action='' method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button name='save' value="save">post it</button>
+            </form>
+        </div>
+        {% load mptt_tags %}
+        <div>
+            {% recursetree branch %}
+                <div>
+                    <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endrecursetree %}
+        </div>
+
+    </div>
+{% endblock %}

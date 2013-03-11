@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+    <script type="text/javascript">
+        $(function() {
+            $("#wr tbody tr").formset();
+        })
+    </script>
+{% endblock %}
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table id='wr' class="table">
+            <tbody>
+            <tr>
+                <td>weight</td>
+                <td>reps</td>
+            </tr>
+            {% for form in formset %}
+                <tr id="{{ form.prefix }}-row">
+                    <td>{{ form.weight }}</td>
+                    <td>{{ form.reps }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+            <button name="save" value="11">add reps</button>
+        </form>
+
+{% endblock %}

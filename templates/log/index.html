@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+    <br>
+    <br>
+        <div class="row">
+            <div class="span3">
+            <form method="post" action="/workouts/">
+                {% csrf_token %}
+                <button name="add" value="add">add workout</button>
+            </form>
+            </div>
+        </div>
+
+        <table class="table table-condensed">
+        <tbody>
+        {% for y,x in workouts_recent %}
+            <tr class="success">
+            <td colspan="3">
+            <a href="/workouts/{{ x.0.id }}/"> {{ x.0.date }} </a>
+            </td>
+            </tr>
+
+            {% for set in x.1 %}
+                <tr>
+                    <td>{{ set.exercise.name }}</td>
+                    <td colspan="2">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td> <i>weight</i> </td>
+                                    <td> <i>reps</i> </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for wr in set.weight_reps.all %}
+                                <tr>
+                                    <td>{{ wr.weight }}</td>
+                                    <td>{{ wr.reps }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+{% endblock %}

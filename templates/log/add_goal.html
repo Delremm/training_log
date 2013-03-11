@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div>
+    <form   method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <input type="hidden" name="date" value="{{ date }}">
+        <button name="save" value="save">save goal</button>
+    </form>
+    </div>
+{% endblock %}

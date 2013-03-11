@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+    <script type="text/javascript">
+        $(function() {
+            $("#wr tbody tr").formset();
+        })
+    </script>
+{% endblock %}
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table id='wr'>
+            <tbody>
+                <tr>
+                    <td>
+                        <i>weight</i>
+                    </td>
+                    <td>
+                        <i>reps</i>
+                    </td>
+                </tr>
+            {% for form in formset %}
+                <tr id="{{ form.prefix }}-row">
+                    <td>{{ form.weight }}</td>
+                    <td>{{ form.reps }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button name="save" value="11">add reps</button>
+    </form>
+    <div>
+        <p>Received data from {{ data|length }} forms.</p>
+        {% for form_data in data %}
+            <p>
+                <strong>Form #{{ forloop.counter }}</strong><br />
+                {% for row in form_data.items %}
+                    <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
+                {% endfor %}
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

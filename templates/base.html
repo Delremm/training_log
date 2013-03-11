@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="/static/datepicker/css/datepicker.css" rel="stylesheet">
+    <style>
+        body{
+            padding-top: 60px;
+        }
+        .horizontal-divider{
+            border-bottom: 1px solid #e3e3e3;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js"></script>
+
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body>
+{% block navbar %}
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+            <a class="brand" href="#">Tr_log</a>
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/exercises/">exercises</a></li>
+                <li><a href="/workouts/">list of workouts</a></li>
+                <li><a href='/goals/'>goals</a></li>
+                <li><a href='/check_points/'>check points</a></li>
+                <li><a href="/board/index/">board</a></li>
+                <li><a href='/admin/'>admin</a></li>
+            </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<div class="container">
+{% block content %}
+{% endblock %}
+</div>
+{% block tail_js %}
+{% endblock %}
+</body>
+</html>

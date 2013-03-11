@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+{% endblock %}
+
+
+{% block content %}
+    {% load comments %}
+
+    <div>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form }}
+            <button>create a new post</button>
+        </form>
+
+    </div>
+{% endblock %}

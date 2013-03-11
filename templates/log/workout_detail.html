@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ object.date }}
+    <div>
+    <table>
+    <tbody>
+    {% for set in sets %}
+        <tr>
+            <td>
+            <h3>{{ set }} </h3>
+            {% for wr in set.weight_reps.all %}
+            <div>{{ wr }}</div>
+            {% endfor %}
+            </td>
+            <td>
+            <form method="post" action="/exercise_change/">
+                {% csrf_token %}
+                <input type='hidden' name='workout_id' value="{{ object.id }}">
+                <button name="set_id" value="{{ set.id }}">change exercise</button>
+            </form>
+            <form method="post" action="/weight_reps_change/">
+                {% csrf_token %}
+                <input type='hidden' name='workout_id' value="{{ object.id }}">
+                <button name="set_id" value="{{ set.id }}">change weight reps</button>
+            </form>
+                <form method="post" action="/workouts/{{ object.id }}/set_del/">
+                    {% csrf_token %}
+                    <input type='hidden' name='workout_id' value="{{ object.id }}">
+                    <button name="set_id" value="{{ set.id }}">del exercise</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+    </table>
+    </div>
+
+    <form method="post" action="/choice_exercise/">
+        {% csrf_token %}
+        <button name="workout_id" value="{{ object.id }}">add exercise</button>
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{%load verbatim%}
+
+{% block extra_head %}
+<!-- <script src="/static/log.js" type="text/javascript"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular.min.js"></script>
+    <script src="/static/angular/js/app.js"></script>
+    <script src="/static/angular/js/services.js"></script>
+    <script src="/static/angular/js/controllers.js"></script>
+    <script src="/static/angular/js/filters.js"></script>
+    <script src="/static/angular/js/directives.js"></script>
+<script type="text/javascript">
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    {% verbatim %}
+    <div ng-app="myApp">
+        <script type="text/ng-template" id="add_workout.html">
+            <p>today: {{ today }}</p>
+        </script>
+
+        <!-- hello.html -->
+        <script type="text/ng-template" id="hello.html">
+            Your name: <input type="text" ng-model="name" value="World"/>
+            <hr/>
+            Hello {{name}}!
+        </script>
+
+        <div ng-controller="MainCtrl">
+            <a href="#/workouts">workouts</a>
+            <a href="#/hello">hello</a>
+            <div np-view></div>
+            <!--
+            <div ng-controller="WorkoutAddCtrl">
+                <p>today: {{ today }}</p>
+            </div>
+            <div ng-controller="HelloCntl">
+                Your name: <input type="text" ng-model="name" value="World"/>
+                <hr/>
+                Hello {{name}}!
+            </div>
+            <div ng-controller="FormController" class="example">
+
+                <label>Name:</label><br>
+                <input type="text" ng-model="user.name" required/> <br><br>
+
+                <label>Address:</label><br>
+                <input type="text" ng-model="user.address.line1" size="33" required> <br>
+                <input type="text" ng-model="user.address.city" size="12" required>,
+                <input type="text" ng-model="user.address.state"
+                       ng-pattern="state" size="2" required>
+                <input type="text" ng-model="user.address.zip" size="5"
+                       ng-pattern="zip" required><br><br>
+
+                <label>Phone:</label>
+                [ <a href="" ng-click="addContact()">add</a> ]
+                <div ng-repeat="contact in user.contacts">
+                    <select ng-model="contact.type">
+                        <option>email</option>
+                        <option>phone</option>
+                        <option>pager</option>
+                        <option>IM</option>
+                    </select>
+                    <input type="text" ng-model="contact.value" required>
+                    [ <a href="" ng-click="removeContact(contact)">X</a> ]
+                </div>
+                <hr/>
+                Debug View:
+                <pre>user={{user | json}}</pre>
+            </div> -->
+
+
+        </div>
+        <!-- add_workout.html -->
+
+
+    </div>
+    <hr>
+    {% endverbatim %}
+
+    <h1 id="sidebar">Sidebar</h1>
+    <div class="workouts_container">
+
+    </div>
+    <h3></h3>
+{% for object in object_list %}
+<h3>{{ object }}</h3>
+    <p class="tr_log_workout">{{ object.data }}</p>
+
+{% endfor %}
+{% endblock %}
+
+{% block tail_js %}
+
+{% endblock %}
