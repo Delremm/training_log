@@ -10,16 +10,37 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'base.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+if os.environ.get('django_local', 0 ):
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'base.db',                      # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '',                      # Set to empty string for default.
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'training_log',                      # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': 'training_log',
+            'PASSWORD': '314159',
+            'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '',                      # Set to empty string for default.
+        }
+    }
+
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'training_log'
+EMAIL_HOST_PASSWORD = 'boloto'
+DEFAULT_FROM_EMAIL = 'admin@training_log.com'
+SERVER_EMAIL = 'admin@training_log.com'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -33,6 +54,9 @@ TIME_ZONE = 'America/Chicago'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'ru-RU'
+LOCALE_PATHS = (
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'locale')),
+)
 
 SITE_ID = 1
 
@@ -49,23 +73,23 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'media'))
+MEDIA_ROOT = '/home/delremm/webapps/training_log_static/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = 'http://127.0.0.1:8000/media/'
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'static')) #'D:/glushaev/work/gg/static/'
+STATIC_ROOT = '/home/delremm/webapps/training_log_static/' #'D:/glushaev/work/gg/static/'
 
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = 'http://127.0.0.1:8000/static/'
+STATIC_URL = '/static/'
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 
@@ -110,7 +134,22 @@ ROOT_URLCONF = 'gg.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'gg.wsgi.application'
 
+
+import django.conf.global_settings as DEFAULT_SETTINGS
+
+MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES + (
+    'fiber.middleware.ObfuscateEmailAddressMiddleware',
+    'fiber.middleware.AdminPageMiddleware',
+)
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+)
+
 TEMPLATE_DIRS = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates')),)#('D:/glushaev/work/gg/templates',)
+
+STATICFILES_FINDERS = DEFAULT_SETTINGS.STATICFILES_FINDERS + (
+    'compressor.finders.CompressorFinder',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -123,14 +162,40 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.comments',
     'foo',
-    'log',
+    #'log',
     'log_app',
     'mptt',
+    'compressor',
     'fiber',
-    'easy_thumbnails',
+    #'easy_thumbnails',
     'rest_framework',
     'django_verbatim',
 )
+
+
+if os.environ.get('django_local', 0 ):
+    DEBUG = True
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'base.db',                      # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '',                      # Set to empty string for default.
+        }
+    }
+
+    MEDIA_ROOT = os.path.join(os.path.dirname(__file__), '..', 'media')
+
+    STATIC_ROOT = os.path.join(os.path.dirname(__file__), '..', 'static')
+
+    STATIC_URL = 'http://127.0.0.1:8000/static/'
+    MEDIA_URL = 'http://127.0.0.1:8000/media/'
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
