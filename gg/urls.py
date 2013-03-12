@@ -5,7 +5,7 @@ from django.contrib.auth.views import login
 from django.contrib import admin
 admin.autodiscover()
 from foo.views import EntryView
-from log.views import TestView
+
 import os
 import settings
 
@@ -21,10 +21,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     #(r'^comments/', include('django.contrib.comments.urls')),
     (r'^board/', include('foo.urls')),
-    (r'^', include('log.urls')),
-    #(r'^log/', include('log_app.urls')),
+    (r'^log/', include('log_app.urls')),
     (r'accounts/login/', login),
-    (r'^test/$', TestView.as_view()),
     (r'^api/v2/', include('fiber.rest_api.urls')),
     (r'^admin/fiber/', include('fiber.admin_urls')),
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages': ('fiber',),}),

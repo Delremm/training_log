@@ -106,7 +106,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -147,7 +147,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 
 TEMPLATE_DIRS = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates')),)#('D:/glushaev/work/gg/templates',)
 
-STATICFILES_FINDERS = DEFAULT_SETTINGS.STATICFILES_FINDERS + (
+STATICFILES_FINDERS = STATICFILES_FINDERS + (
     'compressor.finders.CompressorFinder',
 )
 
@@ -162,7 +162,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.comments',
     'foo',
-    'log',
     'log_app',
     'mptt',
     'compressor',
@@ -170,6 +169,7 @@ INSTALLED_APPS = (
     #'easy_thumbnails',
     'rest_framework',
     'django_verbatim',
+    'south',
 )
 
 
