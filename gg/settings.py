@@ -162,7 +162,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.comments',
     'foo',
-    #'log',
+    'log',
     'log_app',
     'mptt',
     'compressor',
