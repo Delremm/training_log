@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
+    (r'^log/', include('log_app.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     #(r'^comments/', include('django.contrib.comments.urls')),
@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     (r'^admin/fiber/', include('fiber.admin_urls')),
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages': ('fiber',),}),
     (r'', 'fiber.views.page'),
-    (r'^log/', include('log_app.urls')),
+
 )
 
 if os.environ.get('django_local', 0 ):
