@@ -9,7 +9,7 @@ import json
 class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
-        fields = ('id', 'date', 'data', 'user')
+        fields = ('id', 'date', 'data')
 
     def restore_object(self, attrs, instance=None):
         """
