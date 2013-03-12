@@ -19,7 +19,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
             # Update existing instance
             instance.date = attrs.get('date', instance.date)
             instance.data = attrs.get('data', instance.data)
-            instance.user = attrs.get('user', instance.user)
+            #instance.user = attrs.get('user', instance.user)
             return instance
         # Create new instance
         return Workout(**attrs)

@@ -174,7 +174,7 @@ INSTALLED_APPS = (
 )
 
 
-if os.environ.get('django_local', 0 ):
+if os.environ.get('django_local', 0):
     DEBUG = True
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

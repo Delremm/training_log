@@ -26,11 +26,9 @@ urlpatterns = patterns('',
     (r'^api/v2/', include('fiber.rest_api.urls')),
     (r'^admin/fiber/', include('fiber.admin_urls')),
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages': ('fiber',),}),
-    (r'', 'fiber.views.page'),
-
 )
 
-if os.environ.get('django_local', 0 ):
+if os.environ.get('django_local', 0):
     urlpatterns += patterns('',
                             (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
                             (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
@@ -40,4 +38,5 @@ if os.environ.get('django_local', 0 ):
 urlpatterns += patterns('',
                         url(r'^api-auth/', include('rest_framework.urls',
                                                    namespace='rest_framework')),
+                        (r'', 'fiber.views.page'),
                         )
