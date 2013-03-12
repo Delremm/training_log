@@ -21,13 +21,13 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     #(r'^comments/', include('django.contrib.comments.urls')),
     (r'^board/', include('foo.urls')),
-    (r'^log/', include('log_app.urls')),
+
     (r'accounts/login/', login),
     (r'^api/v2/', include('fiber.rest_api.urls')),
     (r'^admin/fiber/', include('fiber.admin_urls')),
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages': ('fiber',),}),
     (r'', 'fiber.views.page'),
-
+    (r'^log/', include('log_app.urls')),
 )
 
 if os.environ.get('django_local', 0 ):
