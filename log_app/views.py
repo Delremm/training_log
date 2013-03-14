@@ -16,7 +16,12 @@ class IsOwner(permissions.BasePermission):
     Object-level permission to only allow owners of an object to edit it.
     Assumes the model instance has an `user` attribute.
     """
-
+    
+    def has_permission(self, request, view):
+        if request.user and request.user.is_authenticated():
+            return True
+        return False
+	
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
 
@@ -36,7 +41,10 @@ class WorkoutListApi(generics.ListCreateAPIView):
 class WorkoutDetailApi(generics.RetrieveUpdateDestroyAPIView):
     model = Workout
     serializer_class = WorkoutSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    permission_classes = (IsOwner, )
+
+    def get_queryset(self):
+        return Workout.objects.filter(user=self.request.user)
 
     def pre_save(self, obj):
         obj.user = self.request.user
@@ -45,9 +53,12 @@ class WorkoutDetailApi(generics.RetrieveUpdateDestroyAPIView):
 class WorkoutDetailApiDate(generics.RetrieveUpdateDestroyAPIView):
     model = Workout
     serializer_class = WorkoutSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    permission_classes = (IsOwner, )
     slug_field = 'date'
     slug_url_kwarg = 'date'
+
+    def get_queryset(self):
+        return Workout.objects.filter(user=self.request.user)
 
     def pre_save(self, obj):
         obj.user = self.request.user
