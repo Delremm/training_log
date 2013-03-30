@@ -231,6 +231,8 @@ VKONTAKTE_APP_AUTH = {
     'user_mode': 2,
     'id': '3532966'
 }
+VKONTAKTE_OAUTH2_EXTRA_SCOPE = ['notify', 'friends', 'photos', 'status', 'wall', 'nohttps']
+
 
 if os.environ.get('django_local', 0):
     DEBUG = True
