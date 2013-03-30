@@ -22,7 +22,7 @@ urlpatterns = patterns('',
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^log', include('log_app.urls')),
+    (r'^log/', include('log_app.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     #(r'^comments/', include('django.contrib.comments.urls')),
@@ -33,7 +33,7 @@ urlpatterns = patterns('',
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout',
         {'next_page': '/'}),
     url(r'^accounts/', include('registration_email.backends.simple.urls')),
-    url(r'^social', include('social_auth.urls')),
+    url(r'^social/', include('social_auth.urls')),
     url(r'^$', (generic.TemplateView.as_view(template_name='index.html')), name="index"),
     #(r'^api/v2/', include('fiber.rest_api.urls')),
     #(r'^admin/fiber/', include('fiber.admin_urls')),
