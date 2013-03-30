@@ -21,15 +21,17 @@ class IsOwner(permissions.BasePermission):
         if request.user and request.user.is_authenticated():
             return True
         return False
-	
+
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
 
 
 class WorkoutListApi(generics.ListCreateAPIView):
-    model = Workout
+    #model = Workout
+    queryset = Workout.objects.all().order_by('-date')
     serializer_class = WorkoutSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    paginate_by = 2
 
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)

@@ -139,8 +139,8 @@ WSGI_APPLICATION = 'gg.wsgi.application'
 import django.conf.global_settings as DEFAULT_SETTINGS
 
 MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES + (
-    'fiber.middleware.ObfuscateEmailAddressMiddleware',
-    'fiber.middleware.AdminPageMiddleware',
+    #'fiber.middleware.ObfuscateEmailAddressMiddleware',
+    #'fiber.middleware.AdminPageMiddleware',
 )
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
@@ -171,8 +171,65 @@ INSTALLED_APPS = (
     'rest_framework',
     'django_verbatim',
     'south',
+    'registration',
+    'registration_email',
+    'social_auth',
 )
 
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = '/'
+REGISTRATION_EMAIL_REGISTER_SUCCESS_URL = '/account/'
+
+#django-social-auth
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.contrib.disqus.DisqusBackend',
+    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    'social_auth.backends.contrib.github.GithubBackend',
+    'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    'social_auth.backends.contrib.live.LiveBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'registration_email.auth.EmailBackend',
+)
+
+TWITTER_CONSUMER_KEY         = ''
+TWITTER_CONSUMER_SECRET      = ''
+FACEBOOK_APP_ID              = '3532966'
+FACEBOOK_API_SECRET          = 'duZcjJzZ5643t4WluAxu'
+LINKEDIN_CONSUMER_KEY        = ''
+LINKEDIN_CONSUMER_SECRET     = ''
+ORKUT_CONSUMER_KEY           = ''
+ORKUT_CONSUMER_SECRET        = ''
+GOOGLE_CONSUMER_KEY          = ''
+GOOGLE_CONSUMER_SECRET       = ''
+GOOGLE_OAUTH2_CLIENT_ID      = ''
+GOOGLE_OAUTH2_CLIENT_SECRET  = ''
+FOURSQUARE_CONSUMER_KEY      = ''
+FOURSQUARE_CONSUMER_SECRET   = ''
+VK_APP_ID                    = ''
+VK_API_SECRET                = ''
+LIVE_CLIENT_ID               = ''
+LIVE_CLIENT_SECRET           = ''
+SKYROCK_CONSUMER_KEY         = ''
+SKYROCK_CONSUMER_SECRET      = ''
+YAHOO_CONSUMER_KEY           = ''
+YAHOO_CONSUMER_SECRET        = ''
+READABILITY_CONSUMER_SECRET  = ''
+READABILITY_CONSUMER_SECRET  = ''
+
+LOGIN_URL          = '/login-form/'
+LOGIN_REDIRECT_URL = '/logged-in/'
+LOGIN_ERROR_URL    = '/login-error/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/another-login-url/'
+
+VKONTAKTE_APP_AUTH = {
+    'key':  'duZcjJzZ5643t4WluAxu',
+    'user_mode': 0,
+    'id': 3532966
+}
 
 if os.environ.get('django_local', 0):
     DEBUG = True

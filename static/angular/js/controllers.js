@@ -110,15 +110,19 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
 
 
     var date_b_list = $scope.date_b_list = DatesBefore(wo_date);
+    /*
     for (var i in date_b_list){
         console.log(date_b_list[i]);
     }
 
     console.log(wo_date);
+    */
     var date_a_list = $scope.date_a_list = DatesAfter(wo_date);
+    /*
     for (var i in date_a_list){
         console.log(date_a_list[i]);
     }
+    */
 
 
 
@@ -176,13 +180,42 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
         });
     $scope.exrc_order = true;
 
+    //units
+    $scope.units = [
+        [[['']], [['']]],
+        [[['kg', 'lbs']], [['reps']]],
+        [[['km', 'm', 'miles']], [['hours'],['minuts'],['sec']]],
+        [[['m', 'feet']], [['sec'], ['msec']]],
+        [[['hours'],['minuts']], [['low intensity', 'medium intensity', 'high intensity']]]
+    ]
+
+
+    function wrs_from_type(exrc_type){
+        if (exrc_type == 1){
+            return [[{value: '', unit: 'kg'}], [{value:'', unit: 'reps'}]]
+        }
+        else if (exrc_type == 2){
+            return [[{value: '', unit: 'm'}], [{value:'', unit: 'hours'}, {value:'', unit:'minuts'}, {value:'',unit:'sec'}]]
+        }
+        else if (exrc_type == 3){
+            return [[{value: '', unit: 'm'}], [{value:'',unit:'sec'}, {value:'', unit: 'msec'}]]
+        }
+        else if (exrc_type == 4){
+            return [[{value:'', unit: 'hours'}, {value:'', unit:'minuts'}], [{value:'',unit:'medium intensity'}]]
+        }
+    };
+
+
     //adding exercise to current workout
     $scope.add_exrc_to_cur_workout = function(exercise){
         var exrc = {
             name: exercise.name,
             id: exercise.pk,
-            wrs: [["",""]]
+            type: exercise.type,
+            wrs: [[[{value: '', unit: ''}], [{value:'', unit: ''}]]]
         };
+
+        exrc.wrs = [wrs_from_type(exercise.type)];
         if ($scope.workout){
             $scope.workout.data.push(exrc);
         }
@@ -193,27 +226,12 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
             };
             $scope.workout.data.push(exrc);
         };
-        //scrolling to new exrc
-        jQuery.fn.extend({
-            scrollBottom: function(speed) {
-                return this.each(function() {
-                    var targetOffset = $(this).offset().top + $(this).height();
-                    $('html').animate({scrollTop: targetOffset - $(window).height()},
-                        speed);
-                });
-            }
-        });
-        $('.log-exercise:last').scrollBottom(2000);
+
 
     };
 
-    $scope.typeaheadValue = 'Alabama';
 
-
-    var states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
-    states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
-
-
+/*
     var workout = {
         exercises: [
             {
@@ -237,9 +255,9 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
         created: "vchera"
     };
     $scope.workout = workout;
-
+*/
     $scope.addWR = function(exercise) {
-        exercise.wrs.push(['','']);
+        exercise.wrs.push(wrs_from_type(exercise.type));
     };
     $scope.removeWR = function(index, exercise){
         exercise.wrs.splice(index, 1);
@@ -252,9 +270,49 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
         $scope.workout.data.splice(exrc, 1);
     }
 }
+// end of add_workout_ctrl
 
-function HelloCntl($scope) {
-    $scope.name = 'World';
+
+
+
+function woListCtrl($scope, $http) {
+
+    //getting workouts list(paginated) , $scope.pages
+    $http.get("/log/api/workouts/").success(function(data){
+        $scope.pages = [data];
+        //console.log(data)
+
+        for (var i in $scope.pages[0].results){
+            console.log('haha');
+            console.log(JSON.parse($scope.pages[0].results[i].data));
+            console.log('haha2');
+            //var ggg = JSON.parse($scope.pages[0].results[i].data);
+            $scope.pages[0].results[i].data = JSON.parse($scope.pages[0].results[i].data);;
+        }
+        //*/
+
+    }).error(function(data){
+            $scope.pages = [];
+        });
+
+    // adding more workouts to list
+    $scope.more_workouts_state = true;
+    $scope.more_workouts = function(){
+        var page_addr = $scope.pages.slice(-1)[0].next;
+        if (page_addr){
+            $http.get(page_addr).success(function(data){
+                var tmp = data;
+                for (var i in tmp.results){
+                    tmp.results[i].data = JSON.parse(tmp.results[i].data);
+                }
+                $scope.pages.push(tmp);
+            });
+        }
+        else {
+            $scope.more_workouts_state = false;
+        }
+        //$scope.pages.push();
+    }
 }
 
 

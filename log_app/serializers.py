@@ -28,10 +28,12 @@ class WorkoutSerializer(serializers.ModelSerializer):
 class ExerciseSerializer(serializers.Serializer):
     pk = serializers.Field()
     name = serializers.CharField(max_length=200)
+    type = serializers.IntegerField()
 
     def restore_object(self, attrs, instance=None):
         if instance:
             instance.name = attrs.get('name', instance.name)
+            instance.type = attrs.get('type', instance.type)
             return instance
         return Exercise(**attrs)
 

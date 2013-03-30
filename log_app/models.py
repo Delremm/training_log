@@ -15,6 +15,8 @@ class ExerciseBodypart(models.Model):
 class Exercise(models.Model):
     name = models.CharField(max_length=200)
 
+    type = models.IntegerField()
+
     bodypart = models.ManyToManyField(ExerciseBodypart, related_name='bodyparts', null=True, blank=True)
     def __unicode__(self):
         return self.name

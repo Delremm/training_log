@@ -1,16 +1,25 @@
-body {
-    color: blue;
-    background-color: grey
+
+
+.log_list_exercise_name {
+    padding-left: 2em;
 }
 
-a:visited {
-    color: blue
+.log_list_wr {
+    padding-left: 4em;
 }
 
-button {
-    width: px;
+/* for wrs select */
+select.btn-mini {
+    height: auto;
+    line-height: 14px;
+    width: auto;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
-.workout {
-    border-bottom: thin solid #8a2be2;
+/* this is optional (see below) */
+select.btn {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
 }
