@@ -197,8 +197,8 @@ AUTHENTICATION_BACKENDS = (
 
 TWITTER_CONSUMER_KEY         = ''
 TWITTER_CONSUMER_SECRET      = ''
-FACEBOOK_APP_ID              = '3532966'
-FACEBOOK_API_SECRET          = 'duZcjJzZ5643t4WluAxu'
+FACEBOOK_APP_ID              = ''
+FACEBOOK_API_SECRET          = ''
 LINKEDIN_CONSUMER_KEY        = ''
 LINKEDIN_CONSUMER_SECRET     = ''
 ORKUT_CONSUMER_KEY           = ''
@@ -227,8 +227,8 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/another-login-url/'
 
 VKONTAKTE_APP_AUTH = {
     'key':  'duZcjJzZ5643t4WluAxu',
-    'user_mode': 0,
-    'id': 3532966
+    'user_mode': 2,
+    'id': '3532966'
 }
 
 if os.environ.get('django_local', 0):
