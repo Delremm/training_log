@@ -144,6 +144,10 @@ MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES + (
 )
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
 )
 
 TEMPLATE_DIRS = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates')),)#('D:/glushaev/work/gg/templates',)
@@ -195,6 +199,9 @@ AUTHENTICATION_BACKENDS = (
     'registration_email.auth.EmailBackend',
 )
 
+
+GIT_APP_ID = '509bfa9805b9a0bd5e4c'
+GIT_API_SECRET = 'dcc12daff5dcc0a00c68a726c4475f49971336f2'
 TWITTER_CONSUMER_KEY         = ''
 TWITTER_CONSUMER_SECRET      = ''
 FACEBOOK_APP_ID              = ''
@@ -209,8 +216,8 @@ GOOGLE_OAUTH2_CLIENT_ID      = ''
 GOOGLE_OAUTH2_CLIENT_SECRET  = ''
 FOURSQUARE_CONSUMER_KEY      = ''
 FOURSQUARE_CONSUMER_SECRET   = ''
-VK_APP_ID                    = ''
-VK_API_SECRET                = ''
+VK_APP_ID                    = '3074152'
+VK_API_SECRET                = 'FoVMPX4Dh6EDdqNB5eIQ'
 LIVE_CLIENT_ID               = ''
 LIVE_CLIENT_SECRET           = ''
 SKYROCK_CONSUMER_KEY         = ''

@@ -21,6 +21,11 @@
             <input type="hidden" name="next" value="/" />
             <input type="submit" value="{% trans "Login" %}">
         </form>
+        <a href="/social/login/github/">login with github</a>
+        <a href="/social/login/vkontakte-oauth2/">with vk</a>
+
+        <hr>
+        {% url "socialauth_begin" "backend-name" %}
     {% else %}
 <a href="/log/add_workout/" class="btn btn-primary">log the training</a>
     {% endif %}
