@@ -221,9 +221,9 @@ YAHOO_CONSUMER_SECRET        = ''
 READABILITY_CONSUMER_SECRET  = ''
 READABILITY_CONSUMER_SECRET  = ''
 
-LOGIN_URL          = '/login/'
+LOGIN_URL          = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL    = '/login-error/'
+LOGIN_ERROR_URL    = '/accounts/login-error/'
 
 
 VKONTAKTE_APP_AUTH = {
