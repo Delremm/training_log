@@ -25,7 +25,7 @@
         <a href="/social/login/vkontakte-oauth2/">with vk</a>
 
         <hr>
-        {% url "socialauth_begin" "backend-name" %}
+        {% url 'socialauth_begin' 'vkontakte-oauth2' %}
     {% else %}
 <a href="/log/add_workout/" class="btn btn-primary">log the training</a>
     {% endif %}

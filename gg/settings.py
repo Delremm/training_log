@@ -186,15 +186,9 @@ REGISTRATION_EMAIL_REGISTER_SUCCESS_URL = '/account/'
 
 #django-social-auth
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.contrib.disqus.DisqusBackend',
-    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-    'social_auth.backends.contrib.github.GithubBackend',
-    'social_auth.backends.contrib.vkontakte.VKontakteBackend',
-    'social_auth.backends.contrib.live.LiveBackend',
+
+    'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
+
     'django.contrib.auth.backends.ModelBackend',
     'registration_email.auth.EmailBackend',
 )
@@ -216,8 +210,8 @@ GOOGLE_OAUTH2_CLIENT_ID      = ''
 GOOGLE_OAUTH2_CLIENT_SECRET  = ''
 FOURSQUARE_CONSUMER_KEY      = ''
 FOURSQUARE_CONSUMER_SECRET   = ''
-VK_APP_ID                    = '3074152'
-VK_API_SECRET                = 'FoVMPX4Dh6EDdqNB5eIQ'
+VK_APP_ID                    = '3533471'
+VK_API_SECRET                = '7lwEMDr5yDD1dUQTeJYF'
 LIVE_CLIENT_ID               = ''
 LIVE_CLIENT_SECRET           = ''
 SKYROCK_CONSUMER_KEY         = ''
@@ -227,10 +221,10 @@ YAHOO_CONSUMER_SECRET        = ''
 READABILITY_CONSUMER_SECRET  = ''
 READABILITY_CONSUMER_SECRET  = ''
 
-LOGIN_URL          = '/login-form/'
-LOGIN_REDIRECT_URL = '/logged-in/'
+LOGIN_URL          = '/login/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/login-error/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/another-login-url/'
+
 
 VKONTAKTE_APP_AUTH = {
     'key':  'duZcjJzZ5643t4WluAxu',
