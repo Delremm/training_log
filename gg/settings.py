@@ -188,14 +188,15 @@ REGISTRATION_EMAIL_REGISTER_SUCCESS_URL = '/account/'
 AUTHENTICATION_BACKENDS = (
 
     'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
+    'social_auth.backends.contrib.github.GithubBackend',
 
     'django.contrib.auth.backends.ModelBackend',
     'registration_email.auth.EmailBackend',
 )
 
 
-GIT_APP_ID = '509bfa9805b9a0bd5e4c'
-GIT_API_SECRET = 'dcc12daff5dcc0a00c68a726c4475f49971336f2'
+GITHUB_APP_ID = '509bfa9805b9a0bd5e4c'
+GITHUB_API_SECRET = 'dcc12daff5dcc0a00c68a726c4475f49971336f2'
 TWITTER_CONSUMER_KEY         = ''
 TWITTER_CONSUMER_SECRET      = ''
 FACEBOOK_APP_ID              = ''
@@ -210,8 +211,8 @@ GOOGLE_OAUTH2_CLIENT_ID      = ''
 GOOGLE_OAUTH2_CLIENT_SECRET  = ''
 FOURSQUARE_CONSUMER_KEY      = ''
 FOURSQUARE_CONSUMER_SECRET   = ''
-VK_APP_ID                    = '3533471'
-VK_API_SECRET                = '7lwEMDr5yDD1dUQTeJYF'
+VK_APP_ID                    = '3533798'
+VK_API_SECRET                = 'KFaq7MhImgNSnjzRkktO'
 LIVE_CLIENT_ID               = ''
 LIVE_CLIENT_SECRET           = ''
 SKYROCK_CONSUMER_KEY         = ''
