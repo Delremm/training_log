@@ -3,6 +3,8 @@
 {% load i18n %}
 
 {% block content %}
+    <div class="row">
+    <div class="span6">
 <h2>{% trans "Login" %}</h2>
 <form method="post" action=".">
     {% csrf_token %}
@@ -21,5 +23,27 @@
     <input type="hidden" name="next" value="{{ next }}" />
     <input type="submit" value="{% trans "Login" %}">
 </form>
+    </div>
+    <div class="span6">
+        <h2>{% trans "Register" %}</h2>
+        <form method="post" action="/accounts/register/">
+            {% csrf_token %}
 
+            <div class="fieldWrapper">
+                <label for="id_email">Адрес электронной почты</label>
+                <input class="required" id="id_email" maxlength="256" name="email" type="text"  class="text-input email-input" title="адрес электронной почты">
+            </div>
+            <div class="fieldWrapper">
+                <label for="id_password1">Пароль</label>
+                <input class="required" id="id_password1" name="password1" type="password">
+            </div>
+            <div class="fieldWrapper">
+                <label for="id_password2">Password (repeat)</label>
+                <input class="required" id="id_password2" name="password2" type="password">
+            </div>
+
+            <input type="submit" value="{% trans "Register" %}">
+        </form>
+    </div>
+    </div>
 {% endblock %}

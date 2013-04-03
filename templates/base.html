@@ -1,93 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title></title>
+    {% block title %}<title>Training log</title>{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="/static/datepicker/css/datepicker.css" rel="stylesheet">
     <link href="/static/css/base.css" rel="stylesheet">
-    <style>
-        body{
-            padding-top: 60px;
-        }
-        .horizontal-divider{
-            border-bottom: 1px solid #e3e3e3;
-        }
+    <style type="text/css">
     </style>
 
-    {% block head %}
-        <script src="http://vkontakte.ru/js/api/xd_connection.js?2" type="text/javascript"></script>
 
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" class="icon-search">
+
+    {% block head %}
     {% endblock %}
     {% block extra_head %}
-
     {% endblock %}
 </head>
+
 <body>
-{% block navbar %}
-    <div class="navbar navbar-fixed-top">
+
+
+<!-- Part 1: Wrap all page content here -->
+<div id="wrap">
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
-            <a class="brand" href="/">Tr_log</a>
-            <ul class="nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/log/">list of workouts</a></li>
-                <li><a href="/log/api/exercises/">exercises</a></li>
-                <li><a href="/log/api/workouts/">api list of workouts</a></li>
-                <li><a href='/log/add_workout/'>track</a></li>
-                <li><a href="/board/index/">board</a></li>
-                <li><a href='/admin/'>admin</a></li>
-            </ul>
-                <ul class="nav pull-right">
-                    {% if user.is_anonymous %}
-                        <li><a href="/accounts/login/" class="navbar-link">зайти в личный кабинет</a></li>
-                        <li><a href="/accounts/register/" class="navbar-link">регистрация</a></li>
-                        <!--<li><a href="/accounts/register/" class="navbar-link">регистрация</a></li>-->
-                    {% else %}
-                        <li><a href="/account/" class="navbar-link">профайл</a></li>
-                        <li><a href="/accounts/logout/" class="navbar-link">выйти</a></li>
-                    {% endif %}
-                </ul>
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="/">Training log</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="/">Home</a></li>
+
+                        <li><a href='/log/add_workout/'>track</a></li>
+                        <li><a href="/board/index/">board</a></li>
+                        <li><a href='/admin/'>admin</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Api <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-header">API</li>
+                                <li><a href="/log/api/exercises/">exercises</a></li>
+                                <li><a href="/log/api/workouts/">api list of workouts</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav pull-right">
+                        {% if user.is_anonymous %}
+                            <li><a href="/accounts/login/" class="navbar-link">зайти в личный кабинет</a></li>
+                            <li><a href="/accounts/register/" class="navbar-link">регистрация</a></li>
+                            <!--<li><a href="/accounts/register/" class="navbar-link">регистрация</a></li>-->
+                        {% else %}
+                            <li><a href="/account/" class="navbar-link">профайл</a></li>
+                            <li><a href="/accounts/logout/" class="navbar-link">выйти</a></li>
+                        {% endif %}
+                    </ul>
+                </div><!--/.nav-collapse -->
             </div>
         </div>
     </div>
-{% endblock %}
-<div class="container">
-{% block content %}
-{% endblock %}
-</div>
 
+    <!-- Begin page content -->
+    <div class="container">
+        {% block content %}
+        <div class="page-header">
+            <h1>Training log</h1>
+        </div>
+        <p class="lead">Keep your training logged for terrifying results.</p>
+        {% endblock %}
+    </div>
+
+    <div id="push"></div>
+</div>
+{% block footer %}
+<div id="footer">
+    <div class="container">
+        <p class="muted credit">
+            Training log &middot;
+            <a href="/about/">about</a> &middot;
+            <a href="/contacts/">contacts</a> &middot;
+            @2013
+        </p>
+
+    </div>
+</div>
+{% endblock %}
+
+
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js"></script>
 {% block js %}
-    <script type="text/javascript">
-
-        VK.init(function() {
-// any of your code here
-                }
-        );
-
-        function startConnect() {
-            VK.callMethod('showInstallBox');
-        }
-
-        function requestRights() {
-            VK.callMethod('showSettingsBox', 1 + 2); // 1+2 is just an example
-        }
-
-        function onSettingsChanged(settings) {
-            window.location.reload();
-        }
-
-        $(document).ready( function(){
-            VK.addCallback("onApplicationAdded", requestRights);
-            VK.addCallback("onSettingsChanged", onSettingsChanged);
-        });
-    </script>
 {% endblock %}
 {% block tail_js %}
 {% endblock %}
+
 </body>
 </html>

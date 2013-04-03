@@ -6,56 +6,74 @@
 {% block content %}
     {% if not user.is_authenticated %}
         <div class="row-fluid">
-        <div class="span4">
-        <h2>{% trans "Login" %}</h2>
-        <form method="post" action="/accounts/login/">
-            {% csrf_token %}
-            <div class="fieldWrapper">
-                <label for="id_username">{% trans "Email" %}</label>
-                <input id="id_username" maxlength="254" name="username" type="text">
+        <div class="span6">
+            <div class="well">
+                Keep your trainings lgged for terrifying results.
+                It actually works, only the logging of your workouts help you to overcome your current stagnation.
             </div>
-            <div class="fieldWrapper">
-                <label for="id_password">{% trans "Password" %}</label>
-                <input id="id_password" name="password" type="password">
-            </div>
-            <input type="hidden" name="next" value="/" />
-            <input type="submit" value="{% trans "Login" %}">
-        </form>
-
         </div>
-            <div class="span4">
-                <h2>Через соц. сети</h2>
-                <a href="/login/github/">login with github</a>
-                <a href="/login/vkontakte-oauth2/">with vk</a>
-            </div>
-            <div class="span4">
-                <h2>{% trans "Registration form" %}</h2>
-                <form method="post" action=".">
+        <div class="span3">
+            <div class="well">
+                <h2>{% trans "Login" %}</h2>
+                <form method="post" action="/accounts/login/">
                     {% csrf_token %}
+                    <div class="fieldWrapper">
+                        <label for="id_username">{% trans "Email" %}</label>
+                        <input id="id_username" maxlength="254" name="username" type="text" autofocus>
+                    </div>
+                    <div class="fieldWrapper">
+                        <label for="id_password">{% trans "Password" %}</label>
+                        <input id="id_password" name="password" type="password">
+                    </div>
+                    <input type="hidden" name="next" value="/" />
+                    <input type="submit" value="{% trans "Login" %}">
+                </form>
 
+                <h2>Через соц. сети</h2>
+                <a href="{% url 'socialauth_begin' 'github' %}">login with github</a>
+                <a href="{% url 'socialauth_begin' 'vkontakte-oauth2' %}">login with VKontakte</a>
+            </div>
+        </div>
+            <div class="span3">
+                <div class="well">
+                    <h2>{% trans "Registration form" %}</h2>
+                    <form method="post" action="/accounts/register/">
+                        {% csrf_token %}
 
                         <div class="fieldWrapper">
                             <label for="id_email">Адрес электронной почты</label>
-                            <input class="required" id="id_email" maxlength="256" name="email" type="text">
+                            <input class="required" id="id_email" maxlength="256" name="email" type="text"  class="text-input email-input" title="адрес электронной почты">
                         </div>
-                    <div class="fieldWrapper">
-                        <label for="id_password1">Пароль</label>
-                        <input class="required" id="id_password1" name="password1" type="password">
+                        <div class="fieldWrapper">
+                            <label for="id_password1">Пароль</label>
+                            <input class="required" id="id_password1" name="password1" type="password">
                         </div>
-                    <div class="fieldWrapper">
-                        <label for="id_password2">Password (repeat)</label>
-                        <input class="required" id="id_password2" name="password2" type="password">
+                        <div class="fieldWrapper">
+                            <label for="id_password2">Password (repeat)</label>
+                            <input class="required" id="id_password2" name="password2" type="password">
                         </div>
 
-                    <input type="submit" value="{% trans "Register" %}">
-                </form>
-
+                        <input type="submit" value="{% trans "Register" %}">
+                    </form>
+                </div>
             </div>
-
         <hr>
-        <a href="{% url 'socialauth_begin' 'vkontakte-oauth2' %}">login with VKontakte</a>
+
         </div>
     {% else %}
 <a href="/log/add_workout/" class="btn btn-primary">log the training</a>
     {% endif %}
+{% endblock %}
+
+{% block tail_js %}
+    <script>
+        {% if not user.is_authenticated %}
+            $(document).ready(function(){
+            //var bgImg = window.location.hostname + '/images/images/logo.gif';
+            var bgImg = 'http://wallpoper.com/images/00/17/29/61/abstract-fractal_00172961.jpg';
+            $("body").css('background-image', 'url('+bgImg+')').css('background-size', '100%');
+                console.log(bgImg);
+            });
+        {% endif %}
+    </script>
 {% endblock %}
