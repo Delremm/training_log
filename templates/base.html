@@ -1,8 +1,10 @@
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    {% block title %}<title>Training log</title>{% endblock %}
+    <title>{% block title %}{% trans "Training log" %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -87,9 +89,9 @@
 <div id="footer">
     <div class="container">
         <p class="muted credit">
-            Training log &middot;
-            <a href="/about/">about</a> &middot;
-            <a href="/contacts/">contacts</a> &middot;
+            {% trans "Training log" %} &middot;
+            <a href="/about/">{% trans "about" %}</a> &middot;
+            <a href="/contacts/">{% trans "contacts" %}</a> &middot;
             @2013
         </p>
 
@@ -106,6 +108,16 @@
 <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    var url = window.location;
+    // Will only work if string in href matches with location
+    $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+
+    // Will also work for relative and absolute hrefs
+    $('ul.nav a').filter(function() {
+        return this.href == url;
+    }).parent().addClass('active');
+</script>
 {% block js %}
 {% endblock %}
 {% block tail_js %}

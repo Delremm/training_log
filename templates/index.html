@@ -4,12 +4,30 @@
 
 
 {% block content %}
+    <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}" />
+        <select name="language">
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+                <option value="{{ language.code }}">{{ language.name_local }} ({{ language.code }})</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Go" />
+    </form>
+    {% get_current_language as LANGUAGE_CODE %}
+    {{ LANGUAGE_CODE }}
+
+
+
     {% if not user.is_authenticated %}
         <div class="row-fluid">
         <div class="span6">
             <div class="well">
+                {% blocktrans %}
                 Keep your trainings lgged for terrifying results.
                 It actually works, only the logging of your workouts help you to overcome your current stagnation.
+                {% endblocktrans %}
             </div>
         </div>
         <div class="span3">
@@ -29,14 +47,14 @@
                     <input type="submit" value="{% trans "Login" %}">
                 </form>
 
-                <h2>Через соц. сети</h2>
+                <h2>{% trans "Login via social networks" %}</h2>
                 <a href="{% url 'socialauth_begin' 'github' %}">login with github</a>
                 <a href="{% url 'socialauth_begin' 'vkontakte-oauth2' %}">login with VKontakte</a>
             </div>
         </div>
             <div class="span3">
                 <div class="well">
-                    <h2>{% trans "Registration form" %}</h2>
+                    <h2>{% trans "Register" %}</h2>
                     <form method="post" action="/accounts/register/">
                         {% csrf_token %}
 
@@ -61,7 +79,7 @@
 
         </div>
     {% else %}
-<a href="/log/add_workout/" class="btn btn-primary">log the training</a>
+<a href="/log/add_workout/" class="btn btn-primary">{% trans "log the training" %}</a>
     {% endif %}
 {% endblock %}
 

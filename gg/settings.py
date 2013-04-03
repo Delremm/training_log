@@ -148,6 +148,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
     'social_auth.context_processors.social_auth_login_redirect',
+    'django.core.context_processors.i18n',
 )
 
 TEMPLATE_DIRS = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates')),)#('D:/glushaev/work/gg/templates',)

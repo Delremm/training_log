@@ -37,7 +37,8 @@ urlpatterns = patterns('',
     url(r'^$', (generic.TemplateView.as_view(template_name='index.html')), name="index"),
     #(r'^api/v2/', include('fiber.rest_api.urls')),
     #(r'^admin/fiber/', include('fiber.admin_urls')),
-    #(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages': ('fiber',),}),
+    (r'^i18n/', include('django.conf.urls.i18n')),
+    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages': ('fiber',),}),
 )
 
 if os.environ.get('django_local', 0):

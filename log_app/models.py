@@ -1,21 +1,23 @@
 
 from datetime import date
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.models import User
 
 
 class ExerciseBodypart(models.Model):
-    bodypart_name = models.CharField(max_length=255)
+    bodypart_name = models.CharField(_("name of body part"), max_length=255)
 
     def __unicode__(self):
         return self.bodypart_name
 
 
 class Exercise(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(_("name of the exercise"), max_length=200)
 
-    type = models.IntegerField()
+    #1-weight, 2-running, 3-sprint, 4-boxing
+    type = models.IntegerField(_("type of exercise"))
 
     bodypart = models.ManyToManyField(ExerciseBodypart, related_name='bodyparts', null=True, blank=True)
     def __unicode__(self):
@@ -31,11 +33,11 @@ import ast
 
 
 class Workout(models.Model):
-    date = models.DateField(default=date.today())
+    date = models.DateField(_("date"), default=date.today())
 
     user = models.ForeignKey(User, related_name='workouts', null=True, blank=True)
 
-    data = models.TextField(null=True, blank=True)
+    data = models.TextField(null=True, blank=True, verbose_name=_("data"))
 
     def save(self, force_insert=False, force_update=False, using=None):
         a = ast.literal_eval(self.data)
