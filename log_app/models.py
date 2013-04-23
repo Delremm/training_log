@@ -20,6 +20,8 @@ class Exercise(models.Model):
     type = models.IntegerField(_("type of exercise"))
 
     bodypart = models.ManyToManyField(ExerciseBodypart, related_name='bodyparts', null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
     def __unicode__(self):
         return self.name
 

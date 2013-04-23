@@ -69,7 +69,7 @@ msgstr ""
 #: .\templates\registration\login.html.py:24
 #: .\templates\registration\password_reset_complete.html.py:8
 msgid "Login"
-msgstr ""
+msgstr "Войти"
 
 #: .\templates\index.html.py:23 .\templates\registration\login.html.py:14
 msgid "Email"
@@ -81,14 +81,14 @@ msgstr "Пароль"
 
 #: .\templates\index.html.py:34
 msgid "Login via social networks"
-msgstr "Зайти через соц.сети"
+msgstr "Войти через соц.сети"
 
 #: .\templates\index.html.py:41 .\templates\index.html.py:58
 #: .\templates\registration\login.html.py:28
 #: .\templates\registration\login.html.py:45
 #: .\templates\registration\registration_form.html.py:17
 msgid "Register"
-msgstr "Зарегестрироваться"
+msgstr "Регистрация"
 
 #: .\templates\index.html.py:66
 msgid "log the training"

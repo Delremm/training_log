@@ -4,8 +4,9 @@
 // Declare app level module which depends on filters, and services
 //'myApp.filters', 'myApp.services', 'myApp.directives'
 
+angular.module('woList', []);
 
-var myApp = angular.module('myApp',[],function($routeProvider) {
+var myApp = angular.module('myApp',['$strap.directives'],function($routeProvider) {
 
     $routeProvider
         .when('/home',{templateUrl:'home.html'})

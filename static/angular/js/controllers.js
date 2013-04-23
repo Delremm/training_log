@@ -78,6 +78,12 @@ function DatesAfter(date){
     }
     return date_list
 }
+function ToProperDate(d){
+    return d.toISOString().slice(0,10)
+}
+
+
+
 function WorkoutAddCtrl($scope, $http, $routeParams){
 
     //today
@@ -93,8 +99,6 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
         if (re.test($routeParams.wo_date)){
             var wo_date = $scope.wo_date = $routeParams.wo_date;
             myDate = Date(wo_date);
-            console.log('gg:');
-            console.log(myDate);
         }
         else {
             var wo_date = $scope.wo_date = myDate.toISOString().slice(0,10);
@@ -132,6 +136,7 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
         var ggg = $scope.workout.data;
         $scope.workout.data = JSON.parse(ggg);
         $scope.create_workout = false;
+        $scope.master_workout = angular.copy($scope.workout);
 
     }).error(function(data){
             $scope.create_workout = true;
@@ -146,16 +151,20 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
         if ($scope.create_workout){
             $http.post('/log/api/workouts/', $scope.workout, {headers: {'X-CSRFToken': csrftoken}}).success(function(data){
                 $scope.test = data;
+                $scope.master_workout = angular.copy($scope.workout);
+                $scope.saving_error = '';
             }).error(function(data){
-                    $scope.test = data;
+                    $scope.saving_error = data;
                 });
             $scope.create_workout = false;
         }
         else {
             $http.put('/log/api/workouts/' + $scope.workout.date + '/', $scope.workout, {headers: {'X-CSRFToken': csrftoken}}).success(function(data){
                 $scope.test = data;
+                $scope.master_workout = angular.copy($scope.workout);
+                $scope.saving_error = '';
             }).error(function(data){
-                    $scope.test = data;
+                    $scope.saving_error = data;
                 });
         }
     }
@@ -163,8 +172,8 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
     //date_to is used at calendar
     $scope.date_to = $scope.wo_date;
     $scope.rediredt_to_date = function(){
-        //alert($scope.date_to);
-        window.location.replace('/log/add_workout/#/add_workout/' + $scope.date_to);
+        //alert(ToProperDate($scope.date_to));
+        window.location.replace('/log/add_workout/#/add_workout/' + ToProperDate($scope.date_to));
     };
 
     //getting all exercises
@@ -183,25 +192,25 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
     //units
     $scope.units = [
         [[['']], [['']]],
-        [[['kg', 'lbs']], [['reps']]],
-        [[['km', 'm', 'miles']], [['hours'],['minuts'],['sec']]],
-        [[['m', 'feet']], [['sec'], ['msec']]],
-        [[['hours'],['minuts']], [['low intensity', 'medium intensity', 'high intensity']]]
+        [[['кг', 'фунт']], [['раз(а)']]],
+        [[['км', 'м', 'миль']], [['часы'],['мин'],['сек']]],
+        [[['м', 'футы']], [['сек'], ['мсек']]],
+        [[['часы'],['мин']], [['слабая интенсивность', 'средняя интенсивность', 'высокая интенсивность']]]
     ]
 
 
     function wrs_from_type(exrc_type){
         if (exrc_type == 1){
-            return [[{value: '', unit: 'kg'}], [{value:'', unit: 'reps'}]]
+            return [[{value: '', unit: 'кг'}], [{value:'', unit: 'раз(а)'}]]
         }
         else if (exrc_type == 2){
-            return [[{value: '', unit: 'm'}], [{value:'', unit: 'hours'}, {value:'', unit:'minuts'}, {value:'',unit:'sec'}]]
+            return [[{value: '', unit: 'м'}], [{value:'', unit: 'часы'}, {value:'', unit:'мин'}, {value:'',unit:'сек'}]]
         }
         else if (exrc_type == 3){
-            return [[{value: '', unit: 'm'}], [{value:'',unit:'sec'}, {value:'', unit: 'msec'}]]
+            return [[{value: '', unit: 'м'}], [{value:'',unit:'сек'}, {value:'', unit: 'мсек'}]]
         }
         else if (exrc_type == 4){
-            return [[{value:'', unit: 'hours'}, {value:'', unit:'minuts'}], [{value:'',unit:'medium intensity'}]]
+            return [[{value:'', unit: 'часы'}, {value:'', unit:'мин'}], [{value:'',unit:'средняя интенсивность'}]]
         }
     };
 
@@ -212,7 +221,8 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
             name: exercise.name,
             id: exercise.pk,
             type: exercise.type,
-            wrs: [[[{value: '', unit: ''}], [{value:'', unit: ''}]]]
+            wrs: [[[{value: '', unit: ''}], [{value:'', unit: ''}]]],
+            notes: [0, ""]
         };
 
         exrc.wrs = [wrs_from_type(exercise.type)];
@@ -231,31 +241,7 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
     };
 
 
-/*
-    var workout = {
-        exercises: [
-            {
-                name: "Squats",
-                id: 1,
-                wrs: [
-                    [222, 3],
-                    [255, 4],
-                    [555, 6]
-                ]
-            },
-            {
-                name: "Deads",
-                id: 2,
-                wrs: [
-                    [555,3],
-                    [222, 12]
-                ]
-            }
-        ],
-        created: "vchera"
-    };
-    $scope.workout = workout;
-*/
+
     $scope.addWR = function(exercise) {
         exercise.wrs.push(wrs_from_type(exercise.type));
     };
@@ -269,6 +255,56 @@ function WorkoutAddCtrl($scope, $http, $routeParams){
     $scope.removeExrcise = function(exrc){
         $scope.workout.data.splice(exrc, 1);
     }
+    $scope.add_exercise_notes = function(exercise){
+        exercise.notes[0] = 1;
+    }
+    $scope.remove_exercise_notes = function(exercise){
+        exercise.notes[0] = 0;
+        exercise.notes[1] = "";
+    }
+
+
+
+    $scope.show_exercise_description = function(exercise){
+        $scope.exercise_description = exercise.description;
+        $scope.exercise_description_name = exercise.name;
+    }
+
+    //search thro exercises by type
+    $scope.cur_exercise_type_change = function(exrc_type){
+        if (exrc_type==1){
+            $scope.cur_exercise = 1;
+        }
+        else if (exrc_type==2){
+            $scope.cur_exercise = 2;
+        }
+        else if (exrc_type==3){
+            $scope.cur_exercise = 3;
+        }
+        else if (exrc_type==4){
+            $scope.cur_exercise = 4;
+        }
+        else if (exrc_type==0){
+            $scope.cur_exercise = '';
+        }
+        else {
+            $scope.cur_exercise = exrc_type;
+        }
+    }
+
+    //disabling save button when no changes
+    $scope.noChanges = function(data){
+        if (data==''){
+            return true
+        }
+        else{
+            if (angular.equals($scope.master_workout, $scope.workout)){
+                return true
+            }
+            return false
+        }
+    }
+
 }
 // end of add_workout_ctrl
 

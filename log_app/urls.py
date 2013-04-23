@@ -16,5 +16,5 @@ urlpatterns = patterns('',
     url(r'workouts/$', views.WorkoutListView.as_view(), name='workouts'),
     url(r'add_workout/$', login_required(generic.TemplateView.as_view(template_name='log_app/add_workout.html')), name="add_workout"),
     url(r'vk/$', vkontakte_view, name='vk_app'),
-    url(r'/$', generic.TemplateView.as_view(template_name='log_app/index.html'), name='index'),
+    url(r'$', login_required(generic.TemplateView.as_view(template_name='log_app/index.html')), name='index'),
 )

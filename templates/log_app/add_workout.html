@@ -24,79 +24,35 @@
         </script>
 
 
-
+        <!--
         <a href="#appOne">App One</a> |
         <a href="#appTwo">App Two</a> |
-        <a href="#add_workout">add workout</a>
+        <a href="#add_workout">Записать тренировку</a>
+        <hr> -->
 
         <div ng-view></div>
 
-            <!--
-
-        <div ng-controller="WorkoutAddCtrl">
-
-
-            <ng-include src="'add_workout.html'"></ng-include>
-        </div>
-            <div ng-controller="WorkoutAddCtrl">
-                <p>today: {{ today }}</p>
-            </div>
-            <div ng-controller="HelloCntl">
-                Your name: <input type="text" ng-model="name" value="World"/>
-                <hr/>
-                Hello {{name}}!
-            </div>
-            <div ng-controller="FormController" class="example">
-
-                <label>Name:</label><br>
-                <input type="text" ng-model="user.name" required/> <br><br>
-
-                <label>Address:</label><br>
-                <input type="text" ng-model="user.address.line1" size="33" required> <br>
-                <input type="text" ng-model="user.address.city" size="12" required>,
-                <input type="text" ng-model="user.address.state"
-                       ng-pattern="state" size="2" required>
-                <input type="text" ng-model="user.address.zip" size="5"
-                       ng-pattern="zip" required><br><br>
-
-                <label>Phone:</label>
-                [ <a href="" ng-click="addContact()">add</a> ]
-                <div ng-repeat="contact in user.contacts">
-                    <select ng-model="contact.type">
-                        <option>email</option>
-                        <option>phone</option>
-                        <option>pager</option>
-                        <option>IM</option>
-                    </select>
-                    <input type="text" ng-model="contact.value" required>
-                    [ <a href="" ng-click="removeContact(contact)">X</a> ]
-                </div>
-                <hr/>
-                Debug View:
-                <pre>user={{user | json}}</pre>
-            </div> -->
-
         <script type="text/ng-template" id="add_workout.html">
-            <p>date: {{ date }}</p>
+
             <div class="row-fluid">
                 <div class="log-dates">
                     <div ng-repeat="date in date_b_list">
                         <a href="#add_workout/{{ date[0] }}">
                             <div class="span1">
-                                <p ng-click="wo_from_date(date)" class="date_verbose">{{ date[1] }}</p>
+                                <p ng-click="wo_from_date(date)" class="date_verbose">{{ date[0] | date:'dd-MMMM'  }}</p>
                             </div>
                         </a>
                     </div>
                     <div class="log-date-today">
                         <a href="#add_workout/{{ wo_date }}">
                             <div class="span2">
-                                <h4 class="text-success date_verbose" ng-click="wo_from_date(date)"><strong>{{ wo_date_full }}</strong></h4>
+                                <h4 class="text-success date_verbose" ng-click="wo_from_date(date)"><strong>{{ wo_date | date:'fullDate' }}</strong></h4>
                             </div></a>
                     </div>
                     <div ng-repeat="date in date_a_list">
                         <a href="#add_workout/{{ date[0] }}">
                             <div class="span1">
-                                <p class="date_verbose" ng-click="wo_from_date(date)">{{ date[1] }}</p>
+                                <p class="date_verbose" ng-click="wo_from_date(date)">{{ date[0] | date:'dd-MMM' }}</p>
                             </div>
                         </a>
                     </div>
@@ -110,7 +66,7 @@
                     </div>
                 </div>
                 <div class="span3">
-                    <a class="btn btn-primary" ng-href="#/add_workout/{{ today | date:'yyyy-MM-dd' }}">today: {{ today | date:'yyyy-MM-dd' }}</a>
+                    <a class="btn btn-primary" ng-href="#/add_workout/{{ today | date:'yyyy-MM-dd' }}">сегодня: {{ today | date:'fullDate' }}</a>
                 </div>
             </div>
 
@@ -118,8 +74,9 @@
 
             <!-- wo_data -->
             <div class="row-fluid">
-                <div class="span7">
-                    <button class="btn btn-primary" ng-click="save_workout()">Save</button>
+                <div class="span6">
+                    <button class="btn btn-primary" ng-disabled="noChanges(workout.data)" ng-click="save_workout()">Сохранить</button>
+                    <span ng_show="saving_error" class="alert">Произошла ошибка при сохранении</span>
                     <div class="log-exercises thumbnail" ng-repeat="exercise in workout.data">
                         <div class="log-exercise">
                             <div class="row-fluid">
@@ -131,7 +88,7 @@
                             </div>
                             </div>
                         </div>
-                        [ <a href="" ng-click="addWR(exercise)">add</a> ]
+                        [ <a href="" ng-click="addWR(exercise)">добавить</a> ]
                         <div ng-repeat="wr in exercise.wrs">
                             <!--
                             <div>
@@ -143,7 +100,16 @@
                             <div class="span1">[ <a href="" ng-click="removeWR($index, exercise)">X</a> ]</div>
                             </div>
                         </div>
+                        <div class="log_exercise_notes">
+                            <a href="" ng-click="add_exercise_notes(exercise)">добавить заметку</a> /
+                            <a href="" ng-click="remove_exercise_notes(exercise)">удалить заметку</a>
+                            <div ng-switch on="exercise.notes[0]">
+                                <div ng-switch-when="1"><textarea ng-model="exercise.notes[1]"></textarea></div>
+                                <div ng-switch-default></div>
+                            </div>
+                        </div>
                     </div>
+
                     <hr id="add_exrc_scroll">
                     Debug view:
                     <pre>
@@ -157,13 +123,46 @@
 
                 </div>
                 <!-- exercises -->
-                <div class="span5">
-                    <input type="text" ng-model="cur_exercise">
+                <div class="span6">
+                    <div class="row-fluid">
+                        <div class="span5">
+                    <input type="text" ng-model="cur_exercise" placeholder="поиск упражнения">
+                    <div>
+                        <a href="" ng-click="cur_exercise_type_change(0)">все</a> |
+                        <a href="" ng-click="cur_exercise_type_change(1)">силовые</a> |
+                        <a href="" ng-click="cur_exercise_type_change(2)">бег</a> |
+                        <a href="" ng-click="cur_exercise_type_change((3))">кардио</a> |
+                        <a href="" ng-click="cur_exercise_type_change(4)">единоборства</a>
+                    </div>
+                    <hr>
+                    <p class="muted">добавить упражнение</p>
                     <div class="exercise-list">
                         <div ng-repeat="exercise in cur_exercises | filter: cur_exercise">
-                            <div class="exercise-choice" ng-click="add_exrc_to_cur_workout(exercise)">
-                                <p>{{ exercise.name }} {{ exercise.type }}</p>
+                            <div class="exercise-choice">
+                                <span ng-click="add_exrc_to_cur_workout(exercise)">
+                                    <a href="">{{ exercise.name }} {{ exercise.type }}</a>
+                                </span>
+                                <a href="" ng-click="show_exercise_description(exercise)">?</a>
                             </div>
+
+                        </div>
+                    </div>
+                        </div>
+                        <div class="span7">
+                    <div class="log_exercise_description">
+                        <!-- search by bodyparts -->
+                        <div>
+                            <p>поиск по части тела</p>
+                            <a href="" ng-click="cur_exercise_type_change('Спина')">Спина</a> |
+                            <a href="" ng-click="cur_exercise_type_change('Плечи')">Плечи</a> |
+                            <a href="" ng-click="cur_exercise_type_change('Ноги')">Ноги</a>
+                        </div>
+                        <!-- description of the exercise -->
+                        <div>
+                            <p><b>{{ exercise_description_name }}</b></p>
+                            {{ exercise_description }}
+                        </div>
+                    </div>
                         </div>
                     </div>
                 </div>
@@ -190,11 +189,11 @@
 {% block tail_js %}
     <!-- <script src="/static/log.js" type="text/javascript"></script> -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.1.3/i18n/angular-locale_ru.js"></script>
     <script src="/static/angular/js/app.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
-    <script src="//mgcrea.github.com/angular-strap/vendor/bootstrap-datepicker.js"></script>
-    <script src="//mgcrea.github.com/angular-strap/js/angular-strap.js?0.6.6"></script>
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="//mgcrea.github.com/angular-strap/js/angular-strap.js"></script>
 
     <script src="/static/angular/js/services.js"></script>
     <script src="/static/angular/js/controllers.js"></script>

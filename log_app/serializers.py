@@ -29,11 +29,14 @@ class ExerciseSerializer(serializers.Serializer):
     pk = serializers.Field()
     name = serializers.CharField(max_length=200)
     type = serializers.IntegerField()
+    description = serializers.CharField(widget=widgets.Textarea, max_length=5000)
+    bodypart = serializers.RelatedField(many=True, read_only=True)
 
     def restore_object(self, attrs, instance=None):
         if instance:
             instance.name = attrs.get('name', instance.name)
             instance.type = attrs.get('type', instance.type)
+            instance.description = attrs.get('description', instance.description)
             return instance
         return Exercise(**attrs)
 
@@ -41,7 +44,7 @@ class ExerciseSerializer(serializers.Serializer):
 class SetSerializer(serializers.Serializer):
     pk = serializers.Field()
     exercise = serializers.Field()
-    data = serializers.CharField(widget=widgets.Textarea, max_length=1000)
+    data = serializers.CharField(widget=widgets.Textarea, max_length=5000)
     workout = serializers.Field()
 
 
