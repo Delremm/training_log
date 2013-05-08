@@ -4,7 +4,7 @@
 *.pyc
 Python272.chm
 =======
-*.py[cod]
+
 
 # C extensions
 *.so
