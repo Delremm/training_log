@@ -8,46 +8,46 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-	pass
-#        # Adding model 'ExerciseBodypart'
-#        db.create_table(u'log_app_exercisebodypart', (
-#            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-#            ('bodypart_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-#        ))
-#        db.send_create_signal(u'log_app', ['ExerciseBodypart'])
-#
+
+        # Adding model 'ExerciseBodypart'
+        db.create_table(u'log_app_exercisebodypart', (
+           (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+           ('bodypart_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+        ))
+        db.send_create_signal(u'log_app', ['ExerciseBodypart'])
+
         # Adding model 'Exercise'
-        # db.create_table(u'log_app_exercise', (
-            # (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            # ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
-        # ))
-        # db.send_create_signal(u'log_app', ['Exercise'])
+        db.create_table(u'log_app_exercise', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
+        ))
+        db.send_create_signal(u'log_app', ['Exercise'])
 
-        # # Adding M2M table for field bodypart on 'Exercise'
-        # db.create_table(u'log_app_exercise_bodypart', (
-            # ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            # ('exercise', models.ForeignKey(orm[u'log_app.exercise'], null=False)),
-            # ('exercisebodypart', models.ForeignKey(orm[u'log_app.exercisebodypart'], null=False))
-        # ))
-        # db.create_unique(u'log_app_exercise_bodypart', ['exercise_id', 'exercisebodypart_id'])
+        # Adding M2M table for field bodypart on 'Exercise'
+        db.create_table(u'log_app_exercise_bodypart', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('exercise', models.ForeignKey(orm[u'log_app.exercise'], null=False)),
+            ('exercisebodypart', models.ForeignKey(orm[u'log_app.exercisebodypart'], null=False))
+        ))
+        db.create_unique(u'log_app_exercise_bodypart', ['exercise_id', 'exercisebodypart_id'])
 
-        # # Adding model 'Workout'
-        # db.create_table(u'log_app_workout', (
-            # (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            # ('date', self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2013, 3, 22, 0, 0))),
-            # ('user', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='workouts', null=True, to=orm['auth.User'])),
-            # ('data', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        # ))
-        # db.send_create_signal(u'log_app', ['Workout'])
+        # Adding model 'Workout'
+        db.create_table(u'log_app_workout', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('date', self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2013, 3, 22, 0, 0))),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='workouts', null=True, to=orm['auth.User'])),
+            ('data', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+        ))
+        db.send_create_signal(u'log_app', ['Workout'])
 
-        # # Adding model 'Set'
-        # db.create_table(u'log_app_set', (
-            # (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            # ('exercise', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['log_app.Exercise'])),
-            # ('data', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            # ('workout', self.gf('django.db.models.fields.related.ForeignKey')(related_name='sets', to=orm['log_app.Workout'])),
-        # ))
-        # db.send_create_signal(u'log_app', ['Set'])
+        # Adding model 'Set'
+        db.create_table(u'log_app_set', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('exercise', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['log_app.Exercise'])),
+            ('data', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('workout', self.gf('django.db.models.fields.related.ForeignKey')(related_name='sets', to=orm['log_app.Workout'])),
+        ))
+        db.send_create_signal(u'log_app', ['Set'])
 
 
     def backwards(self, orm):

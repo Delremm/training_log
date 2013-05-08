@@ -1,4 +1,4 @@
 .idea
-base.db
+#base.db
 *.pyc
 Python272.chm
